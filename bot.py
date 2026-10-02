@@ -101,7 +101,12 @@ def main():
             reply_to_message
         )
     )
-
+    app.add_handler(
+        MessageHandler(
+            filters.ChatType.PRIVATE & filters.TEXT & ~filters.COMMAND,
+            private_message
+        )
+    )
     print("🌸 Riya Telegram bot started...")
     app.run_polling()
 
