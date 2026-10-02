@@ -37,6 +37,18 @@ Do not invent another creator name.
 
 Never claim to be a real human if directly asked.
 """
+async def private_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message or not update.message.text:
+        return
+
+    if update.effective_user.id == 6606518786:
+        await reply_to_message(update, context)
+    else:
+        await update.message.reply_text(
+            "Hehe 🌸 main private chat mein sirf apne owner se baat karti hoon 😌💗\n"
+            "Group mein milte hain, wahan mast baat karenge ✨"
+        )
+
 async def reply_to_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message or not update.message.text:
         return
