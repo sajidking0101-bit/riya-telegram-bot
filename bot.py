@@ -60,7 +60,7 @@ Keep the reply short, usually 1-3 sentences.
 
         response = await asyncio.to_thread(
             client.models.generate_content,
-            model="gemini-2.5-flash",
+            model="gemini-3.8-flash",
             contents=prompt
         )
 
