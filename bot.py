@@ -86,7 +86,7 @@ Keep the reply short, usually 1-3 sentences.
             print(f"AI ERROR (attempt {attempt + 1}/3):", repr(e))
 
             if attempt < 2:
-                await asyncio.sleep(3)
+                await asyncio.sleep(10)
 
     print("AI ERROR: All 3 attempts failed.")
        
