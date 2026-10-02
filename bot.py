@@ -37,7 +37,6 @@ Do not invent another creator name.
 
 Never claim to be a real human if directly asked.
 """
-
 async def reply_to_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message or not update.message.text:
         return
@@ -47,8 +46,7 @@ async def reply_to_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not text or text.startswith("/"):
         return
 
-    try:
-        prompt = f"""
+    prompt = f"""
 {SYSTEM_PROMPT}
 
 Member's message:
@@ -58,19 +56,28 @@ Reply naturally as Riya.
 Keep the reply short, usually 1-3 sentences.
 """
 
-        response = await asyncio.to_thread(
-            client.models.generate_content,
-            model="gemini-3.8-flash",
-            contents=prompt
-        )
+    for attempt in range(3):
+        try:
+            response = await asyncio.to_thread(
+                client.models.generate_content,
+                model="gemini-3.8-flash",
+                contents=prompt
+            )
 
-        reply = response.text.strip()
+            reply = response.text.strip()
 
-        if reply:
-            await update.message.reply_text(reply)
+            if reply:
+                await update.message.reply_text(reply)
+            return
 
-    except Exception as e:
-        print("AI ERROR:", repr(e))
+        except Exception as e:
+            print(f"AI ERROR (attempt {attempt + 1}/3):", repr(e))
+
+            if attempt < 2:
+                await asyncio.sleep(3)
+
+    print("AI ERROR: All 3 attempts failed.")
+       
 
 
 def main():
